@@ -4,6 +4,7 @@ import interfaces.SudokuInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -60,7 +61,7 @@ public class SudokuImpl extends UnicastRemoteObject implements SudokuInterface {
         return switch (option) {
             case 1 -> generateRandomBoard(smallBoard);
             case 2 -> generateRandomBoard(mediumBoard);
-            case 3 -> bigBoard;
+            case 3 -> generateRandomBoard(bigBoard);
             default -> smallBoard;
         };
     }
@@ -96,7 +97,7 @@ public class SudokuImpl extends UnicastRemoteObject implements SudokuInterface {
                                 flag = 9;
                                 break;
                             case 16:
-                                flag = 1;
+                                flag = 16;
                             default:
                                 break;
                         }
@@ -218,7 +219,7 @@ public class SudokuImpl extends UnicastRemoteObject implements SudokuInterface {
 
     public String checkSolvedBoard(int[][] board) {
         for (int i = 0; i < board.length; i++) {
-            if (!rowCheck(board, i) || !colCheck(board, i)) {
+            if (!rowCheck(board, i) || !colCheck(board, i) || Arrays.stream(board).anyMatch(row -> Arrays.stream(row).anyMatch(col -> col == 0))) {
                 return "Has fallado, revisa de nuevo el tablero.";
             }
             if (board.length == 9 && !subsectionCheck(board, i, i)) {
