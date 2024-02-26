@@ -26,7 +26,7 @@ Necesitas tener instalado Java y un IDE que soporte Java, como IntelliJ IDEA o V
 ## Autores ✒️
 
 * **Anderson Garces** - *Desarrollador* - [Perfil GitHub](https://github.com/AndersonGG21)
-* **Miller Cano** - *Desarrollador* - [Perfil GitHub](https://github.com/AndersonGG21)
+* **Miller Cano** - *Desarrollador* - [Perfil GitHub](https://github.com/itscanoa)
 
 ## PDYP 2024-1 👩🏻‍💻
 
