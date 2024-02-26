@@ -101,16 +101,21 @@ public class SudokuClient {
     }
 
     public static void printBoard(int[][] board) {
-        for (int[] row : board) {
-            for (int i : row) {
-                System.out.print(i + " ");
+        int size = board.length;
+        int sqrtSize = (int) Math.sqrt(size);
+
+        for (int i = 0; i < size; i++) {
+            if (i % sqrtSize == 0 && i != 0) {
+                System.out.println("-".repeat(size * 2 + sqrtSize - 1));
+            }
+            for (int j = 0; j < size; j++) {
+                if (j % sqrtSize == 0 && j != 0) {
+                    System.out.print("| ");
+                }
+                System.out.print(board[i][j] + " ");
             }
             System.out.println();
         }
-    }
-
-    public static void handleException() {
-        System.out.println("Maricon");
     }
 
     public static int[][] generateBoard(int size) {
