@@ -48,14 +48,6 @@ public class SudokuGUI {
                     globalBoard = SudokuClient.solveBoard(globalBoard);
                     fillBoard(size, buttons, buttonPanel, frame, globalBoard, originalBoard);
                     panel.updateUI();
-                    //frame.update(frame.getGraphics());
-                    System.out.println("Sudoku resuelto.");
-                    for (int[] row : globalBoard) {
-                        for (int i : row) {
-                            System.out.print(i + " ");
-                        }
-                        System.out.println();
-                    }
                 } catch (Exception ex) {
                     System.out.println("Exception: " + ex);
                 }
@@ -118,7 +110,6 @@ public class SudokuGUI {
                 buttons[i][j].setBorder(BorderFactory.createLineBorder(new Color(252,191,73), 1));
                 buttons[i][j].setFocusPainted(true);
                 buttons[i][j].setForeground(globalBoard[i][j] == originalBoard[i][j] ? Color.BLACK : Color.GREEN);
-
 
                 buttons[i][j].addActionListener(new ActionListener() {
                     @Override
