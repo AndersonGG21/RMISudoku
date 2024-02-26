@@ -1,18 +1,14 @@
 package client;
 
-import client.gui.SudokuGUI;
-import implement.SudokuImpl;
-import interfaces.SudokuInterface;
 
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
+import interfaces.SudokuInterface;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class SudokuClient {
     private static boolean isLoading = true;
 
-    public static void main(String[] args) throws RemoteException, InterruptedException {
+    public static void main(String[] args) throws RemoteException {
         Scanner scanner = new Scanner(System.in);
         SudokuInterface sudoku = null;
         int[][] board = null;
@@ -56,10 +52,10 @@ public class SudokuClient {
                     if (sudoku != null && board != null) {
                         try {
                             Thread loadingThread = new Thread(() -> {
-                                String loadingText = "Solucionando";
+                                StringBuilder loadingText = new StringBuilder("Solucionando");
                                 while (isLoading) {
                                     System.out.print("\r" + loadingText);
-                                    loadingText += ".";
+                                    loadingText.append(".");
                                     try {
                                         Thread.sleep(500);
                                     } catch (InterruptedException e) {
@@ -85,6 +81,7 @@ public class SudokuClient {
                     break;
                 case 3:
                     if (board != null) {
+                        assert sudoku != null;
                         printBoard(sudoku.getBoard());
                         //SudokuGUI sudokuGUI = new SudokuGUI(board);
                     } else {
@@ -119,7 +116,7 @@ public class SudokuClient {
     }
 
     public static int[][] generateBoard(int size) {
-        SudokuInterface sudoku = null;
+        SudokuInterface sudoku;
         int[][] board = new int[][]{};
         try {
             sudoku = (SudokuInterface) java.rmi.Naming.lookup("rmi://localhost/sudoku");
@@ -149,7 +146,7 @@ public class SudokuClient {
     }
 
     public static String checkSolvedBoard(int[][] board) {
-        SudokuInterface sudoku = null;
+        SudokuInterface sudoku;
         String message = "";
         try {
             sudoku = (SudokuInterface) java.rmi.Naming.lookup("rmi://localhost/sudoku");

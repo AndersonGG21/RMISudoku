@@ -4,13 +4,9 @@ import client.SudokuClient;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 
 public class SudokuGUI {
 
-    private static SudokuClient client;
     int[][] globalBoard = new int[][]{};
     int[][] originalBoard = new int[][]{};
     public SudokuGUI(int size) {
@@ -28,52 +24,43 @@ public class SudokuGUI {
         //Botones de acción
         JPanel bottomPanel = new JPanel();
         JButton button1 = new JButton("Generar Sudoku");
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                globalBoard = SudokuClient.generateBoard(size);
-                originalBoard = globalBoard;
-                fillBoard(size, buttons, buttonPanel, frame, globalBoard, originalBoard);
-                title.setText("Sudoku Generado");
-                panel.add(buttonPanel, BorderLayout.CENTER);
-            }
+        button1.addActionListener(e -> {
+            globalBoard = SudokuClient.generateBoard(size);
+            originalBoard = globalBoard;
+            fillBoard(size, buttons, buttonPanel, frame, globalBoard, originalBoard);
+            title.setText("Sudoku Generado");
+            panel.add(buttonPanel, BorderLayout.CENTER);
         });
 
         JButton button2 = new JButton("Solucionar Sudoku (Auto)");
-        button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Thread.sleep(3000);
-                    globalBoard = SudokuClient.solveBoard(globalBoard);
-                    fillBoard(size, buttons, buttonPanel, frame, globalBoard, originalBoard);
-                    panel.updateUI();
-                } catch (Exception ex) {
-                    System.out.println("Exception: " + ex);
-                }
+        button2.addActionListener(e -> {
+            try {
+                Thread.sleep(3000);
+                globalBoard = SudokuClient.solveBoard(globalBoard);
+                fillBoard(size, buttons, buttonPanel, frame, globalBoard, originalBoard);
+                panel.updateUI();
+            } catch (Exception ex) {
+                System.out.println("Exception: " + ex);
             }
         });
 
         //Botón para validar el sudoku
         JButton button3 = new JButton("Validar Sudoku");
-        button3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        button3.addActionListener(e -> {
 
-                int[][] board = new int[size][size];
-                for (int i = 0; i < size; i++) {
-                    for (int j = 0; j < size; j++) {
-                        String buttonText = buttons[i][j].getText();
-                        if (buttonText.isEmpty()) {
-                            board[i][j] = 0;
-                        } else {
-                            board[i][j] = Integer.parseInt(buttonText);
-                        }
+            int[][] board = new int[size][size];
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    String buttonText = buttons[i][j].getText();
+                    if (buttonText.isEmpty()) {
+                        board[i][j] = 0;
+                    } else {
+                        board[i][j] = Integer.parseInt(buttonText);
                     }
                 }
-
-                JOptionPane.showMessageDialog(frame, SudokuClient.checkSolvedBoard(board));
             }
+
+            JOptionPane.showMessageDialog(frame, SudokuClient.checkSolvedBoard(board));
         });
         bottomPanel.add(button1);
         bottomPanel.add(button2);
@@ -111,20 +98,17 @@ public class SudokuGUI {
                 buttons[i][j].setFocusPainted(true);
                 buttons[i][j].setForeground(globalBoard[i][j] == originalBoard[i][j] ? Color.BLACK : Color.GREEN);
 
-                buttons[i][j].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        JButton button = (JButton) e.getSource();
-                        button.setBackground(Color.WHITE);
-                        String input = JOptionPane.showInputDialog(frame, "Ingresa un número:");
-                        if (Integer.parseInt(input) < 1 || Integer.parseInt(input) > 16) {
-                            button.setBackground(Color.RED);
-                            input = JOptionPane.showInputDialog(frame, "Ingresa un número:");
-                        }
-                        button.setBackground(Color.WHITE);
-                        button.setForeground(Color.GREEN);
-                        button.setText(input);
+                buttons[i][j].addActionListener(e -> {
+                    JButton button = (JButton) e.getSource();
+                    button.setBackground(Color.WHITE);
+                    String input = JOptionPane.showInputDialog(frame, "Ingresa un número:");
+                    if (Integer.parseInt(input) < 1 || Integer.parseInt(input) > 16) {
+                        button.setBackground(Color.RED);
+                        input = JOptionPane.showInputDialog(frame, "Ingresa un número:");
                     }
+                    button.setBackground(Color.WHITE);
+                    button.setForeground(Color.GREEN);
+                    button.setText(input);
                 });
                 buttonPanel.add(buttons[i][j]);
             }

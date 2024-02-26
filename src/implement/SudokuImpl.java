@@ -18,7 +18,6 @@ public class SudokuImpl extends UnicastRemoteObject implements SudokuInterface {
     // This method generates a new Sudoku board. It returns a 2D array of integers.
     @Override
     public int[][] generateBoard(int option) {
-        Random rand = new Random();
         var smallBoard = new int[][]{
                 {4, 2, 0, 3},
                 {2, 0, 3, 4},
